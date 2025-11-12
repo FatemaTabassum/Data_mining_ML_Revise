@@ -1,1 +1,16 @@
 this is a new file. 
+
+I followed the following tutorial
+
+https://huggingface.co/blog/ngxson/make-your-own-rag#conclusion
+
+I downloaded the dataset from the following link
+
+https://huggingface.co/ngxson/demo_simple_rag_py/blob/main/cat-facts.txt
+
+I created environment with uv
+Following are the commands
+
+uv venv /path/to/new/location/rag_env
+source rag_env/bin/activate
+uv pip install ollama
