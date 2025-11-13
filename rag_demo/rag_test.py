@@ -18,7 +18,26 @@ def add_chunk_to_database(chunk):
 
 for i, chunk in enumerate(dataset):
     add_chunk_to_database(chunk)
+    a = 'Cats make about 100 different sounds. Dogs make only about 10.'
+    b = 'A cat’s brain is biologically more similar to a human brain than it is to a dog’s. Both humans and cats have identical regions in their brains that are responsible for emotions.'
+    c = 'Cats are North America’s most popular pets: there are 73 million cats compared to 63 million dogs. Over 30% of households in North America own a cat.'
+
+    if  a in chunk:
+        print(f'Found target chunk at index {i}')
+        if a.strip().casefold() == chunk.strip().casefold():
+            print(f'Exact match for target chunk at index {i}')
+    if b in chunk:
+        print(f'Found target chunk at index {i}')
+        if b.strip().casefold() == chunk.strip().casefold():
+            print(f'Exact match for target chunk at index {i}')
+    if c in chunk:
+        print(f'Found target chunk at index {i}')
+        if c.strip().casefold() == chunk.strip().casefold():
+            print(f'Exact match for target chunk at index {i}')
+
+
     if (i + 1) % 100 == 0:
+        print(f'{chunk}')
         print(f'Added {i + 1} chunks to vector database')
 
 # compute cosine similarity between two vectors
@@ -65,6 +84,7 @@ stream = ollama.chat(
   ],
   stream=True,
 )
+
 
 # print the response from the chatbot in real-time
 print('Chatbot response:')
