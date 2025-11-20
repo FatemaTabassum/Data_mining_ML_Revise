@@ -1,0 +1,428 @@
+<!-----
+
+You have some errors, warnings, or alerts. If you are using reckless mode, turn it off to see inline alerts.
+* ERRORs: 0
+* WARNINGs: 0
+* ALERTS: 1
+
+Conversion time: 0.967 seconds.
+
+
+Using this HTML file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs™ to Markdown version 2.0β1
+* Thu Nov 20 2025 10:37:29 GMT-0800 (PST)
+* Source doc: data_mining_naive_bayes-Assignment 
+* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server. NOTE: Images in exported zip file from Google Docs may not appear in  the same order as they do in your doc. Please check the images!
+
+----->
+
+
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 1.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
+
+<h2 style="text-align: center">Advanced Data Mining</h2>
+
+
+<h2 style="text-align: center">COP3330</h2>
+
+
+<ol>
+
+<li>Naive Bayes Classifier</li>
+</ol>
+<p>
+The Naive Bayes classifier is a simple probabilistic supervised Machine Learning Algorithm based on Bayes’ theorem. Bayes’ Theorem is stated as:
+</p>
+<p>
+
+
+<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+<img src="images/image1.png" width="" alt="alt_text" title="image_tooltip">
+
+</p>
+<p>
+Here, 
+</p>
+<p>
+A, B are events.
+</p>
+<p>
+P(A | B) = Probability of A given B is true. 
+</p>
+<p>
+P(B | A) = Probability of B given A is true. 
+</p>
+<p>
+P(A), P(B) = The independent probability of A and B
+</p>
+<p>
+Bayes theorem gives a principled way of calculating a conditional probability without the joint probability. However it assumes that each input is dependent upon all other variables, which make it difficult to compute in many complex cases. Hence, to use Bayes Theorem as a classifier, it is assumed that each variable is independent of each other. It is referred to as the Naive Bayes Classifier. Naive Bayes is named naive due to the calculations being simplified and the effectiveness of its application in real-world is many. 
+</p>
+<p>
+Some terms are used for Bayes theorem when using Naive Bayes Classifier-
+</p>
+<p>
+P(A | B): Posterior Probability
+</p>
+<p>
+P(A): Prior Probability
+</p>
+<p>
+P(B | A): Likelihood
+</p>
+<p>
+P(B): Evidence
+</p>
+<p>
+Hence, we can restate Bayes Theorem as
+</p>
+<p>
+Posterior = Likelihood * Prior / Evidence
+</p>
+<p>
+To model this as a classification problem we express Bayes Theorem as a classification model like below-
+</p>
+<p>
+P(Class | Data) = (P(data | class) * P(Class)) / P(data)
+</p>
+<p>
+To simplify the calculation we remove the assumption of dependence and consider each variable is independent. Additionally, we drop the denominator as it is a constant for all calculations.
+</p>
+<p>
+P(Class | X1, X2, … Xn) = P(X1 | Class) * P (X2 | Class) * … * P(Xn | Class) * P(Class)
+</p>
+<p>
+In this assignment we consider only discrete attributes, and 2-class labels. 
+</p>
+<p>
+We can compute prior probabilities and probabilities of discrete attributes as follows-
+</p>
+<h4>Prior Probability</h4>
+
+
+<p>
+P(C) = Nc / N ; 
+</p>
+<p>
+Where, N = Total number of instances in the dataset
+</p>
+<p>
+Nc = Number of instances of dataset labeled class C
+</p>
+<h4>Probabilities of discrete attributes</h4>
+
+
+<p>
+P(Ai, Ck) = |Aik| / Nc
+</p>
+<p>
+Where,  |Aik| is the number of instances having attribute Ai and belong to class Ck.
+</p>
+<ol>
+
+<li>Implementation Details</li>
+</ol>
+<p>
+I have used Python’ list data structure for saving the datasets. I have also used python’s dictionary data structure to save the count for computing likelihood. While implementing I used the following methods and variables to read raw data, process and save the dataset.
+</p>
+<p>
+Variables
+</p>
+
+
+
+<pre class="prettyprint">dataset_train = holds training dataset
+labels_train = holds training dataset label
+
+dataset_test = holds testing dataset
+labels_test = holds test labels
+
+labels_test is used for evaluating the classifier.
+</pre>
+
+
+<p>
+Methods
+</p>
+
+
+
+<pre class="prettyprint">def create_dataset(self, raw_data_set, max_id = 0)
+    This method accepts raw_data_set as a parameter. After processing it returns 2 separate lists, one for class labels, one for input. max_id parameter is used to identify the number of maximum number of attributes. I assumed there would not be more than 20 attributes in the dataset. Class referred as "+1" is considered class_1 and the assigned label is 0. Class referred as "-1" is considered class_2 and the assigned label is 1. This is done for simplicity.
+
+def compute_prior_prob(self, data_size):
+	This method is used to compute the prior probability of each class. 
+    The probability is saved in self.prior_prob_dict dictionary data- structure. 
+
+def classifier_train(self,):
+    This method prepares the classifier from dataset_train and labels_train dataset, and does necessary computation. A dictionary keep_count_dict is used to save all the count. The key of this dictionary holds 3 variables-
+Key1 = class label,
+Key2 = attribute,
+Key3 = attribute_subtype
+So,
+    keep_count_dict[(key1, key2, key3)] holds the count for computing probabilities.
+    For example, if class label = 0, attribute = 1, attribute_subtype = 3, then when the first occurrence of this data instance happens, the dictionary saves it as keep_count_dict[(0, 1, 3)] = 1. The second time it encounters key(0, 1, 3), the count is incremented and the value becomes keep_count_dict[(0, 1, 3)] = 2. Likewise, for all such keys present in the dataset, the counts are computed.
+
+def compute_likelyhood(self, dataset_):
+    In this method, dataset_train, and dataset_test are sent as parameters (one after one for) computing likelihood and posterior probability. If any instance is not present in dataset_test, then I assigned a 0 to the corresponding keep_count_dict[key].
+
+    The probability of each attribute of a particular instance is computed by,
+
+    prob = math.log2(int(self.keep_count_dict[key]) / self.class_1_cnt)
+
+    The likelihood of that instance is computed by multiplying all the attributes' probabilities and saving it into class_1_likelihood_sum variable.
+    So,
+    class_1_likelihood_sum = class_1_likelihood_sum * self.prior_prob_dict[self.class_1_identifier]
+
+    Likewise, class_2_likelihood_sum is calculated.
+
+    if class_1_likelihood_sum >= class_2_likelihood_sum
+    Then class_1 is assigned as a label to this particular instance.
+
+def compute_confusion_matrix(self, original_label, computed_labels):
+	This method is used to determine confusion matrix.
+
+<ol>
+
+<li>Results and Calculations
+</pre>
+
+
+<h4>
+    Breast_cancer</h4>
+
+
+<p>
+
+    Breast_cancer.train has total 180 instances 
+</p>
+<p>
+
+    Breast_cancer.test has total 106 instances 
+</p>
+<p>
+
+    ‘+1’ (class=0) has instances 56 in the training set
+</p>
+<p>
+
+    ‘-1’ (class=1) has instances 124 in the training set
+</p>
+<p>
+
+    Prior_prob(class=0) =  56 / 180 
+</p>
+<p>
+
+                   = 0.3111111
+</p></li>
+</ol>
+<p>
+	Prior_prob(class=1) = 124 / 180
+</p>
+<p>
+			        = 6.888889
+</p>
+<p>
+	Without log2, I get the values of confusion matrix as following
+</p>
+<p>
+	Train:
+</p>
+<p>
+	a = 30, b = 26, c = 19, d = 105
+</p>
+<p>
+	Test:
+</p>
+<p>
+	a = 16, b = 13, c = 14, d = 63
+</p>
+<p>
+	With log2, I get the values of confusion matrix as following
+</p>
+<p>
+	Train:
+</p>
+<p>
+	a = 26, b = 30, c = 47, d = 77
+</p>
+<p>
+	Test:
+</p>
+<p>
+	a = 17, b = 12, c = 21, d = 56
+</p>
+<p>
+	
+</p>
+<h4>	Poker</h4>
+
+
+<p>
+
+    poker.train has total 1042 instances
+</p>
+<p>
+
+    poker.test has total 678 instances
+</p>
+<p>
+
+    ‘+1’ (class=0) has instances 747 in the training set
+</p>
+<p>
+
+    ‘-1’ (class=1) has instances 295 in the training set
+</p>
+<p>
+
+    Prior_prob(class=0) =  747 / 1042 
+</p>
+<p>
+
+                   = 0.71689
+</p>
+<p>
+	Prior_prob(class=1) = 295 / 1042
+</p>
+<p>
+			        = 0.2831
+</p>
+<p>
+	Without log2 I get the values of confusion matrix as following
+</p>
+<p>
+	Train:
+</p>
+<p>
+	a = 742, b = 5, c = 285, d = 10
+</p>
+<p>
+	Test:
+</p>
+<p>
+	a = 448, b = 11, c = 217, d = 2
+</p>
+<p>
+	With log2, I get the values of confusion matrix as following
+</p>
+<p>
+	Train:
+</p>
+<p>
+	a = 747, b = 0, c = 294, d = 1
+</p>
+<p>
+	Test:
+</p>
+<p>
+	a = 459, b = 0, c = 219, d = 0
+</p>
+<p>
+Here, 
+</p>
+<p>
+a = TP (True Positive)
+</p>
+<p>
+b = FN (False Negative)
+</p>
+<p>
+c = FP (False Positive)
+</p>
+<p>
+d = TN (True Negative)
+</p>
+<p>
+Train Accuracy = (a + d) / (a + b + c + d)
+</p>
+<p>
+	    = (747 + 1) / (747 + 0 + 219 + 1)
+</p>
+<p>
+                = 0.72
+</p>
+<p>
+	     = 72%
+</p>
+<p>
+Test Accuracy = (a + d) / (a + b + c + d)
+</p>
+<p>
+	    = (459 + 0) / (459 + 0 + 219 + 0)
+</p>
+<p>
+                = 0.68
+</p>
+<p>
+	     = 68%
+</p>
+<p>
+This is the train accuracy and test accuracy of Poker data with log2 used.
+</p>
+<p>
+
+    We can see that here, train accuracy > test accuracy and usually train accuracy is bigger than test accuracy.
+</p>
+<p>
+
+    Likewise we can compute accuracy for Breast_cancer data as following -
+</p>
+<p>
+
+    Train Accuracy = (a + d) / (a + b + c + d)
+</p>
+<p>
+	    = (26 + 77) / (26 + 30 + 47 + 77)
+</p>
+<p>
+                = 0.5722
+</p>
+<p>
+	     = 57.2%
+</p>
+<p>
+Test Accuracy = (a + d) / (a + b + c + d)
+</p>
+<p>
+	    = (17 + 56) / (17 + 12 + 21 + 56)
+</p>
+<p>
+                = 0.689
+</p>
+<p>
+	    = 68.9%
+</p>
+<ol>
+
+<li>Potential Improvements
+<p>
+
+    Some attribute values are zero. I observed that sometimes, a value in the test dataset occurs which is not present in the training dataset. Since the attribute value is not present, the attribute count value is 0. If one attribute value is 0, then the whole likelihood will be zero no matter what the other attributes values are, or prior probability is. To resolve this matter, we can use some smoothing techniques - like Laplacian smoothing, m-estimate smoothing although I did not use any smoothing technique. We can segment the data and use Gaussian naive bayes when encountering numerical values. Instead of computing only probabilities, computing log probabilities also help to improve the performance. We can also remove redundant features from the dataset to get a better performance.
+</p></li>
+</ol>
+<p>
+	
+</p>
+<p>
+            
+</p>
+<p>
+	
+</p>
