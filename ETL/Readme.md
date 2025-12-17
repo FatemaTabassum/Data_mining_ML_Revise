@@ -20,3 +20,14 @@ While glob, xml, and datetime are inbuilt features of Python, you need to instal
 Install pandas
 python3.11 -m pip install pandas
 
+
+
+
+# Now for Practice Puropose
+
+Follow the process learned in this lab to perform ETL operations on the data available in the link below.
+
+https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-PY0221EN-SkillsNetwork/labs/module%206/Lab%20-%20Extract%20Transform%20Load/data/datasource.zip 
+
+
+
