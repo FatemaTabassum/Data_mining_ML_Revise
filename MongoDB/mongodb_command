@@ -1,0 +1,639 @@
+mongoshd
+
+
+test> db.books.find()
+test> use bookstore
+switched to db bookstore
+bookstore> db.books.find()
+[
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+    title: 'Wrath of Man',
+    author: 'Terry Pratchett',
+    pages: 310,
+    rating: 3,
+    genres: [ 'action', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c43'),
+    title: 'A Tour in the World',
+    author: 'Perry Pratchett',
+    pages: 210,
+    rating: 4,
+    genres: [ 'thriller', 'action' ]
+  }
+]
+bookstore> it
+no cursor
+bookstore> db.books
+bookstore.books
+bookstore> db.books.find()
+[
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+    title: 'Wrath of Man',
+    author: 'Terry Pratchett',
+    pages: 310,
+    rating: 3,
+    genres: [ 'action', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c43'),
+    title: 'A Tour in the World',
+    author: 'Perry Pratchett',
+    pages: 210,
+    rating: 4,
+    genres: [ 'thriller', 'action' ]
+  }
+]
+bookstore> db.books.find({author: "Terry Pratchett"})
+[
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+    title: 'Wrath of Man',
+    author: 'Terry Pratchett',
+    pages: 310,
+    rating: 3,
+    genres: [ 'action', 'magic' ]
+  }
+]
+bookstore> db.books.findOne(ObjectId('6966e1d140b1cf345c2d5c42'))
+{
+  _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+  title: 'Wrath of Man',
+  author: 'Terry Pratchett',
+  pages: 310,
+  rating: 3,
+  genres: [ 'action', 'magic' ]
+}
+bookstore> db.books.find().count()
+(node:76450) [MONGODB DRIVER] Warning: cursor.count is deprecated and will be removed in the next major version, please use `collection.estimatedDocumentCount` or `collection.countDocuments` instead 
+(Use `node --trace-warnings ...` to show where the warning was created)
+3
+bookstore> db.books.find().sort()
+[
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+    title: 'Wrath of Man',
+    author: 'Terry Pratchett',
+    pages: 310,
+    rating: 3,
+    genres: [ 'action', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c43'),
+    title: 'A Tour in the World',
+    author: 'Perry Pratchett',
+    pages: 210,
+    rating: 4,
+    genres: [ 'thriller', 'action' ]
+  }
+]
+bookstore> db.books.find().sort({title: 1})
+[
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c43'),
+    title: 'A Tour in the World',
+    author: 'Perry Pratchett',
+    pages: 210,
+    rating: 4,
+    genres: [ 'thriller', 'action' ]
+  },
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  },
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c42'),
+    title: 'Wrath of Man',
+    author: 'Terry Pratchett',
+    pages: 310,
+    rating: 3,
+    genres: [ 'action', 'magic' ]
+  }
+]
+bookstore> db.books.find().sort({title: 1}).limit(2)
+[
+  {
+    _id: ObjectId('6966e1d140b1cf345c2d5c43'),
+    title: 'A Tour in the World',
+    author: 'Perry Pratchett',
+    pages: 210,
+    rating: 4,
+    genres: [ 'thriller', 'action' ]
+  },
+  {
+    _id: ObjectId('6966dea440b1cf345c2d5c41'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 300,
+    rating: 7,
+    genres: [ 'fantasy', 'magic' ]
+  }
+]
+Using limit and count
+bookstore> db.books.find().sort({title: 1}).limit(2).count()
+2
+bookstore> 
+bookstore> db.books.insertMany([
+   {
+     title: "The Way of Kings",
+     author: "Brandon Sanderson",
+     rating: 9,
+     pages: 400,
+     genres: ["fantasy"],
+     reviews: [
+       { name: "Yoshi", body: "Great book!!" },
+       { name: "mario", body: "so so" }
+     ]
+   },
+   {
+     title: "The Light of Fantastic",
+     author: "Terry Pratchett",
+     pages: 250,
+     rating: 6,
+     genres: ["fantasy", "magic"],
+     reviews: [
+       { name: "luigi", body: "it was pretty good" },
+       { name: "bowser", body: "loved it!!" }
+     ]
+   },
+   {
+     title: "The Name of the Wind",
+     author: "Patrick Rothfuss",
+     pages: 500,
+     rating: 10,
+     genres: ["fantasy"],
+     reviews: [{ name: "peach", body: "one of my favs" }]
+   },
+   {
+     title: "The Color of Magic",
+     author: "Terry Pratchett",
+     pages: 350,
+     rating: 8,
+     genres: ["fantasy", "magic"],
+     reviews: [
+       { name: "luigi", body: "it was ok" },
+       { name: "bowser", body: "really good book" }
+     ]
+   },
+   {
+     title: "1984",
+     author: "George Orwell",
+     pages: 300,
+     rating: 6,
+     genres: ["sci-fi", "dystopian"],
+     reviews: [
+       { name: "peach", body: "not my cup of tea" },
+       { name: "mario", body: "meh" }
+     ]
+   }
+ ])
+ 
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('697541fe4e2a065434c34876'),
+    '1': ObjectId('697541fe4e2a065434c34877'),
+    '2': ObjectId('697541fe4e2a065434c34878'),
+    '3': ObjectId('697541fe4e2a065434c34879'),
+    '4': ObjectId('697541fe4e2a065434c3487a')
+  }
+}
+bookstore> bookstore> db.books.find({ rating: {$gt: 7}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34876'),
+    title: 'The Way of Kings',
+    author: 'Brandon Sanderson',
+    rating: 9,
+    pages: 400,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Yoshi', body: 'Great book!!' },
+      { name: 'mario', body: 'so so' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+bookstore> db.books.find({ rating: {$lt: 7}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c3487a'),
+    title: '1984',
+    author: 'George Orwell',
+    pages: 300,
+    rating: 6,
+    genres: [ 'sci-fi', 'dystopian' ],
+    reviews: [
+      { name: 'peach', body: 'not my cup of tea' },
+      { name: 'mario', body: 'meh' }
+    ]
+  }
+]
+bookstore> db.books.find({ rating: {$lte: 8}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c3487a'),
+    title: '1984',
+    author: 'George Orwell',
+    pages: 300,
+    rating: 6,
+    genres: [ 'sci-fi', 'dystopian' ],
+    reviews: [
+      { name: 'peach', body: 'not my cup of tea' },
+      { name: 'mario', body: 'meh' }
+    ]
+  }
+]
+Using And
+bookstore> db.books.find( {rating: {$gt: 7}, author: "Patrick Rothfuss"})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  }
+]
+Using or, gt, lt, gte, lte
+bookstore> db.books.find({$or: [{rating: 7}, {rating: 9}]}
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34876'),
+    title: 'The Way of Kings',
+    author: 'Brandon Sanderson',
+    rating: 9,
+    pages: 400,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Yoshi', body: 'Great book!!' },
+      { name: 'mario', body: 'so so' }
+    ]
+  }
+]
+
+bookstore> db.books.find({$or: [{rating: 7}, {author: "Terry Pratchett"}]})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+
+bookstore> db.books.find({$or: [{pages: {$lt: 300}}, {pages: {$gt: 400}}]})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  }
+]
+Using in, nin
+bookstore> db.books.find({rating: {$in : [7, 8, 9]}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34876'),
+    title: 'The Way of Kings',
+    author: 'Brandon Sanderson',
+    rating: 9,
+    pages: 400,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Yoshi', body: 'Great book!!' },
+      { name: 'mario', body: 'so so' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+
+bookstore> db.books.find({rating: {$nin : [7, 8, 9]}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c3487a'),
+    title: '1984',
+    author: 'George Orwell',
+    pages: 300,
+    rating: 6,
+    genres: [ 'sci-fi', 'dystopian' ],
+    reviews: [
+      { name: 'peach', body: 'not my cup of tea' },
+      { name: 'mario', body: 'meh' }
+    ]
+  }
+]
+Querying Arrays
+bookstore> db.books.find({genres: "fantasy"})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34876'),
+    title: 'The Way of Kings',
+    author: 'Brandon Sanderson',
+    rating: 9,
+    pages: 400,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Yoshi', body: 'Great book!!' },
+      { name: 'mario', body: 'so so' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+bookstore> db.books.find({genres: ["magic"]})
+
+bookstore> db.books.find({genres: ["fantasy"]})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34876'),
+    title: 'The Way of Kings',
+    author: 'Brandon Sanderson',
+    rating: 9,
+    pages: 400,
+    genres: [ 'fantasy' ],
+    reviews: [
+      { name: 'Yoshi', body: 'Great book!!' },
+      { name: 'mario', body: 'so so' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34878'),
+    title: 'The Name of the Wind',
+    author: 'Patrick Rothfuss',
+    pages: 500,
+    rating: 10,
+    genres: [ 'fantasy' ],
+    reviews: [ { name: 'peach', body: 'one of my favs' } ]
+  }
+]
+
+bookstore> db.books.find({genres: ["fantasy", "magic"]})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+Updated George Orwell - added fantasy as genres
+bookstore> db.books.find({genres: {$all: ["fantasy", "sci-fi"]}})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c3487a'),
+    title: '1984',
+    author: 'George Orwell',
+    pages: 300,
+    rating: 6,
+    genres: [ 'sci-fi', 'dystopian', 'fantasy' ],
+    reviews: [
+      { name: 'peach', body: 'not my cup of tea' },
+      { name: 'mario', body: 'meh' }
+    ]
+  }
+]
+bookstore> db.books.find({"reviews.name": "luigi"})
+[
+  {
+    _id: ObjectId('697541fe4e2a065434c34877'),
+    title: 'The Light of Fantastic',
+    author: 'Terry Pratchett',
+    pages: 250,
+    rating: 6,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was pretty good' },
+      { name: 'bowser', body: 'loved it!!' }
+    ]
+  },
+  {
+    _id: ObjectId('697541fe4e2a065434c34879'),
+    title: 'The Color of Magic',
+    author: 'Terry Pratchett',
+    pages: 350,
+    rating: 8,
+    genres: [ 'fantasy', 'magic' ],
+    reviews: [
+      { name: 'luigi', body: 'it was ok' },
+      { name: 'bowser', body: 'really good book' }
+    ]
+  }
+]
+
+
+Deleting Documents
+
+Updating Documents
+
